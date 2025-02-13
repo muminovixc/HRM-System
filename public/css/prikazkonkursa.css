@@ -1,0 +1,18 @@
+.konkurs-container {
+    background-color: #83a6ce;
+    color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    max-width: 600px;
+}
+.konkurs-container h1 {
+    font-weight: bold;
+}
+.konkurs-detail {
+    margin-bottom: 15px;
+}
+.konkurs-detail span {
+    font-weight: bold;
+}

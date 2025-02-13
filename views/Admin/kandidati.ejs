@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <title>Kandidati</title>
+        <link rel="icon" type="image/x-icon" href="/images/hr.png" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+          rel="stylesheet"
+        />
+        <script src="/js/authenticateAdmin.js"></script>
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/navbar.css" />
+        <link rel="stylesheet" href="/css/kandidati.css" />
+
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+          <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+              <img
+                src="/images/hr.png"
+                alt="Logo"
+                style="width: 50px; height: 50px; border-radius: 50%"
+              />
+            </a>
+
+            <!-- Navbar Toggler -->
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center border-end px-3"
+                    href="/upravljajkonkursima"
+                  >
+                    <i class="fas fa-briefcase me-2"></i> Konkursi
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center border-end px-3"
+                    href="/kandidati"
+                  >
+                    <i class="fas fa-user me-2"></i> Kandidati
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center border-end px-3"
+                    href="/statistika"
+                  >
+                    <i class="fas fa-chart-bar me-2"></i>Statistika
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/chat"
+                    ><i class="fas fa-comments"></i> Chat</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center px-3 text-danger"
+                    onclick="logout()"
+                  >
+                    <i class="bx bx-log-out me-2"></i> Odjavi se
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <style>
+          .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center; /* Horizontalno centriranje */
+            align-items: center; /* Vertikalno centriranje */
+            z-index: 9999; /* Da bude ispred drugih sadržaja */
+            background-color: rgba(
+              255,
+              255,
+              255,
+              0.8
+            ); /* Polu-transparentna pozadina */
+          }
+
+          .dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 4px;
+            background-color: #007bff;
+            border-radius: 50%;
+            animation: bounce 1.5s infinite ease-in-out;
+          }
+
+          .dot:nth-child(1) {
+            animation-delay: 0s;
+          }
+
+          .dot:nth-child(2) {
+            animation-delay: 0.3s;
+          }
+
+          .dot:nth-child(3) {
+            animation-delay: 0.6s;
+          }
+
+          @keyframes bounce {
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+              transform: translateY(0);
+            }
+            40% {
+              transform: translateY(-10px);
+            }
+            60% {
+              transform: translateY(-5px);
+            }
+          }
+        </style>
+        <script>
+          function logout() {
+            // Remove the token from localStorage or sessionStorage
+            localStorage.removeItem("jwt"); // Or sessionStorage.removeItem('token')
+
+            // Optionally, redirect the user to the login page
+            window.location.href = "/";
+          }
+        </script>
+      </head>
+      <body>
+        <div class="loading-container text-center">
+          <div class="dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <!-- Naslov -->
+          <div class="row">
+            <div class="col-12 text-center">
+              <h1
+                class="border-bottom border-3 mt-5 pb-3"
+                style="color: #4b79a1"
+              >
+                Odaberi konkurs za prikaz prijavljenih kandidata
+              </h1>
+            </div>
+          </div>
+
+          <!-- Središnji sadržaj -->
+          <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+              <!-- Kontejner za pretragu -->
+              <div class="card shadow-lg mt-5">
+                <div class="card-body">
+                  <!-- Forma za pretragu -->
+                  <form class="row g-3">
+                    <!-- Dropdown za odabir konkursa -->
+                    <div class="col-12">
+                      <label
+                        for="konkurs"
+                        class="form-label fw-bold text-primary"
+                        >Odaberite konkurs:</label
+                      >
+                      <select
+                        class="form-select"
+                        id="konkurs"
+                        aria-label="Odaberite konkurs"
+                      >
+                        <!-- Opcije će biti dinamički dodane -->
+                      </select>
+                    </div>
+                    <!-- Dugme za prikaz -->
+                    <div class="col-12 d-flex justify-content-center">
+                      <button id="prikaz" class="btn btn-primary w-50">
+                        Prikaži
+                      </button>
+                    </div>
+                  </form>
+                  <!-- Poruka -->
+                  <div id="porukica" class="text-center mt-3 text-danger"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sekcija za prikaz kandidata -->
+          <div id="kandidati" class="container mt-5">
+            <!-- Dinamički sadržaj (kartice kandidata) -->
+          </div>
+        </div>
+
+        <link rel="stylesheet" href="/css/footer.css" />
+        <footer>
+          <div class="container">
+            <p>&copy; 2025 HRM. Sva prava zadržana.</p>
+          </div>
+        </footer>
+
+        <script src="/js/kandidati.js"></script>
+      </body>
+    </html>
+  </head>
+</html>

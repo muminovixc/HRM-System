@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kreiraj konkurs</title>
+    <link rel="icon" type="image/x-icon" href="/images/hr.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="/js/authenticateAdmin.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/modal.css">
+        <link rel="stylesheet" href="/css/kreirajiupravljajkonkursima.css">
+
+       
+
+    </head>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+          <img
+            src="/images/hr.png"
+            alt="Logo"
+            style="width: 50px; height: 50px; border-radius: 50%"
+          />
+        </a>
+  
+        <!-- Navbar Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/upravljajkonkursima"
+              >
+                <i class="fas fa-briefcase me-2"></i> Konkursi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/kandidati"
+              >
+                <i class="fas fa-user me-2"></i> Kandidati
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/statistika"
+              >
+                <i class="fas fa-chart-bar me-2"></i>Statistika
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white border-end px-3" href="/chat"
+                ><i class="fas fa-comments"></i> Chat</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link d-flex align-items-center px-3 text-danger"
+                onclick="logout()"
+              >
+                <i class="bx bx-log-out me-2"></i> Odjavi se
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <style>
+
+
+.date-picker-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-label {
+  font-size: 16px;
+  color: #555;
+}
+
+.date-picker {
+  position: relative;
+  width: 300px;
+}
+
+.modern-date-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #333;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.modern-date-input:hover {
+  border-color: #bbb;
+}
+
+.modern-date-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.date-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.date-picker:hover .date-icon {
+  color: #666;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+
+    </style>
+
+<body>
+    
+    <div class="container-fluid py-5 bg-light">
+        <!-- Modern Modal -->
+        <div id="modernModal" class="modern-modal">
+          <div class="modern-modal-content rounded shadow-lg p-4 bg-white">
+            <span class="modern-modal-close position-absolute top-0 end-0 m-3 fs-4 text-danger" style="cursor: pointer;">&times;</span>
+            <h2 class="modern-modal-title text-center text-success">Uspjeh!</h2>
+            <p class="modern-modal-body text-center">Uspiješno ste kreirali konkurs!</p>
+            <div class="text-center">
+              <button id="zatvori" class="btn btn-success btn-lg">U redu</button>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Main Content -->
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="text-center mb-5">
+              <h1 class="border-bottom border-3 pb-2 fw-bold">KREIRAJTE OGLAS</h1>
+            </div>
+            <form>
+              <div class="mb-4">
+                <label for="jobTitle" class="form-label fw-semibold">Naziv</label>
+                <input type="text" class="form-control rounded-pill" id="naziv" name="jobTitle" required>
+              </div>
+              <div id="porukan" class="text-center text-danger"></div>
+      
+              <div class="mb-4">
+                <label for="jobDescription" class="form-label fw-semibold">Opis</label>
+                <textarea class="form-control rounded" id="opis" name="jobDescription" rows="4" required></textarea>
+              </div>
+              <div id="porukao" class="text-center text-danger"></div>
+      
+              <div class="mb-4">
+                <label for="jobLocation" class="form-label fw-semibold">Lokacija</label>
+                <input type="text" class="form-control rounded-pill" id="lokacija" name="jobLocation" required>
+              </div>
+              <div id="porukal" class="text-center text-danger"></div>
+      
+              <div id="checkbox" class="checkbox-container mb-4">
+                <label class="form-label fw-semibold">Iskustvo</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" name="iskustvo" value="junior" id="junior">
+                  <label class="form-check-label" for="junior">Junior</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" name="iskustvo" value="medior" id="medior">
+                  <label class="form-check-label" for="medior">Medior</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" name="iskustvo" value="senior" id="senior">
+                  <label class="form-check-label" for="senior">Senior</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" name="iskustvo" value="bez iskustva" id="bez-iskustva">
+                  <label class="form-check-label" for="bez-iskustva">Bez iskustva</label>
+                </div>
+              </div>
+              <div id="porukai" class="text-center text-danger"></div>
+      
+              <div class="mb-4">
+                <label for="jobType" class="form-label fw-semibold">Tip Posla</label>
+                <select class="form-select rounded-pill" id="tip" name="jobType">
+                  <option name="choices" value="full-time">Full-time job</option>
+                  <option name="choices" value="part-time">Part-time job</option>
+                  <option name="choices" value="internship">Internship</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label for="jobType" class="form-label fw-semibold">Unesite do kada ce trajati konkurs.</label>
+                <div class="date-input-wrapper">
+                  <div class="date-picker-wrapper">
+                    <div class="date-picker">
+                      <input type="date" id="datum_trajanja" class="modern-date-input">
+                      <span class="date-icon">
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="porukat" class="text-center text-danger"></div>
+            </form>
+      
+            <div class="mt-5">
+              <form id="dynamicForm" class="">
+                <div class="card p-4 shadow-sm border-0">
+                  <h5 class="text-center fw-bold">Izaberi obavezna polja za kandidata</h5>
+                  <div id="checkbox" class="checkbox-container">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="ime">
+                      <label class="form-check-label" for="ime">Ime</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="prezime">
+                      <label class="form-check-label" for="prezime">Prezime</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="email">
+                      <label class="form-check-label" for="email">Email</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="adresa">
+                      <label class="form-check-label" for="adresa">Adresa</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="grad">
+                      <label class="form-check-label" for="grad">Grad</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="drzava">
+                      <label class="form-check-label" for="drzava">Država</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="cv">
+                      <label class="form-check-label" for="cv">CV</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" name="skills" value="1" id="motivaciono">
+                      <label class="form-check-label" for="motivaciono">Motivaciono pismo</label>
+                    </div>
+                  </div>
+                  <div id="poruka" class="text-center text-danger mt-3"></div>
+      
+                  <!-- Submit Dugme -->
+                  <div class="text-center mt-4">
+                    <button type="submit" id="kreirajkonkurs" class="btn btn-primary btn-lg rounded-pill">Kreiraj</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   
+        <script src="/js/navbar.js"></script>
+        <script src="/js/kreirajkonkurs.js"></script>
+</body>
+</html>

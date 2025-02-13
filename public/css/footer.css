@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  .container {
+    flex: 1; /* Glavni sadržaj se širi da popuni prostor između header-a i footer-a */
+  }
+  .container-fluid {
+    flex: 1; /* Glavni sadržaj se širi da popuni prostor između header-a i footer-a */
+  }
+
+  footer {
+    background-color: #83a6ce;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+  }

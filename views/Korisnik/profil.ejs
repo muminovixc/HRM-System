@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/hr.png">
+    <script src="/js/authenticateClient.js"></script>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/profil.css">
+
+        <nav class="navbar navbar-expand-lg bg-primary text-white">
+          <div class="container">
+            <a href="/profil"><img src="/images/hr.png" alt="Logo" style="width: 50px; height: 50px;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/profil"><i class="fas fa-user"></i> Profil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/konkursi"><i class="fas fa-briefcase"></i> Konkursi</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/mojeaplikacije"><i class="fas fa-file-alt"></i> Moje aplikacije</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/chatKorisnik"><i class="fas fa-comments"></i> Chat</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" onclick="logout()" class="nav-link text-white"><i class="bx bx-log-out"></i> Odjavi se</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </nav>
+
+  </head>
+
+  <style>
+    .btn-primary:hover {
+      background-color: #0056b3; 
+      border-color: #0056b3;
+      transform: scale(1.05);
+    }
+  
+    .btn-primary:focus {
+      box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+    }
+    .loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje */
+    z-index: 9999; /* Da bude ispred drugih sadržaja */
+    background-color: rgba(255, 255, 255, 0.8); /* Polu-transparentna pozadina */
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+    background-color: #007bff;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite ease-in-out;
+  }
+
+  .dot:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  </style>
+  <script>
+
+    function logout() {
+      // Remove the token from localStorage or sessionStorage
+      localStorage.removeItem('jwt');  // Or sessionStorage.removeItem('token')
+    
+      // Optionally, redirect the user to the login page
+      window.location.href = '/';
+    }
+      </script>
+
+    
+   
+    <body>
+      <div class="loading-container text-center">
+        <div class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+
+      
+      <div class="container">
+       
+      <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+          <div class="profile-form">
+            <h3 class="text-center me-5">Profil</h3>
+            <form>
+              <div class="row">
+                <div class="col-4"></div>
+              </div>
+              <div class="form-floating mb-3">
+                <h5 type="text" class="form-control" id="ime2"></h5>  
+                  <label for="firstName"><i class="bi bi-person"></i>Ime</label>
+              </div>
+              <div class="form-floating mb-3">
+                <h5 type="text" class="form-control" id="prezime"></h5>
+                  <label for="lastName"><i class="bi bi-person"></i> Prezime</label>
+              </div>
+              
+                <div class="form-floating mb-3">
+                    <h5 type="text" class="form-control" id="username" ></h5>
+                    <label for="username"><i class="bi bi-person-circle"></i> Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <h5 type="text" class="form-control" id="email" > </h5>
+                    <label for="email"><i class="bi bi-envelope"></i> Email</label>
+                </div>
+
+                <div class="row">
+                  <div class="col"><div id="cvContainer" class="form-floating mb-3">
+                  </div></div>
+                  <div class="col"><div class="form-floating mb-3">
+                    <h5 type="text" class="form-control" id="github" > </h5>
+                      <label for="email"><i class="bi bi-github"></i>github</label>
+                  </div>
+                </div>
+                <div class="form-floating mb-3">
+                  <h5 type="text" class="form-control" id="edukacijaa" ></h5>  
+                  <label ><i class="bi bi-backpack"></i>Obrazovanje</label>
+                </div>
+
+    
+                
+                <div class="row">
+                  <div class="container mt-5 text-center">
+                    <!-- Button to Trigger Modal -->
+                    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#editProfileModal"
+                      style="background-color: #007bff; border-color: #007bff; border-radius: 50px; padding: 12px 30px; font-size: 16px; transition: all 0.3s ease;">
+                      Edituj profil
+                    </button>
+                  </div>
+                </div>
+                
+               
+                </div>
+                  
+                </div>
+                
+                
+                
+                
+            </form>
+        </div>
+        </div>
+      </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/profil.js"></script>
+
+
+        <link rel="stylesheet" href="/css/footer.css">
+        <footer class="bg-primary">
+          <div class="container">
+            <p>&copy; 2025 HRM. Sva prava zadržana.</p>
+          </div>
+        </footer>
+       
+    </body>
+
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title text-center" id="editProfileModalLabel">Edit profil</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <label  class="form-label">Ime</label>
+                      <div class="input-group">
+                          <input type="text" id="imee" class="form-control">
+                          <span class="input-group-text"><i class="bi bi-person"></i></span>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Prezime</label>
+                        <div class="input-group">
+                            <input type="text" id="prezime1" class="form-control">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        </div>
+                      <div class="mb-3">
+                          <label for="username" class="form-label">Username</label>
+                          <div class="input-group">
+                              <input type="text" id="username1" class="form-control">
+                              <span class="input-group-text"><i class="bi bi-person"></i></span>
+                          </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edukacija" class="form-label">Obrazovanje</label>
+                        <div class="input-group">
+                            <input type="text" id="edukacija" class="form-control">
+                            <span class="input-group-text"><i class="bi bi-school"></i></span>
+                        </div>
+                    </div>
+                      <div class="mb-3">
+                        <label id="username" for="username" class="form-label">Vjestine</label>
+                        <div class="input-group">
+                            <input type="text" id="vjestine" class="form-control">
+                            <span class="input-group-text"><i class="bi bi-chevron-expand"></i></span>
+                        </div>
+                    </div>
+                      <div class="mb-3">
+                        <label id="github" for="username" class="form-label">github link</label>
+                        <div class="input-group">
+                            <input type="text" id="github1" class="form-control" placeholder="www...">
+                            <span class="input-group-text"><i class="bi bi-github"></i></span>
+                        </div>
+                    </div>
+                     
+                      <div class="mb-3">
+                        <label for="CV" class="form-label">CV</label>
+                        <input type="file" id="cv1" class="form-control">
+                    </div>
+                    
+                  
+                    
+
+                     
+                      <div class="d-grid">
+                          <button onclick="azuriraj(event)" id="unesi1" class="btn btn-dark">Unesi</button>
+                      </div>
+                  </form> 
+              </div>
+          </div>
+      </div>
+  </div>
+
+   
+    
+</html>

@@ -1,0 +1,85 @@
+/* Osnovni stil za modal */
+.modern-modal {
+    display: none; /* Skriven po defaultu */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Poluprozirna pozadina */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Sadržaj modala */
+  .modern-modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  /* Animacija za prikaz */
+  @keyframes slideIn {
+    from {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Naslov modala */
+  .modern-modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Tekst tijela modala */
+  .modern-modal-body {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  /* Dugme unutar modala */
+  .modern-modal-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modern-modal-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Dugme za zatvaranje */
+  .modern-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .modern-modal-close:hover {
+    color: #333;
+  }
+  

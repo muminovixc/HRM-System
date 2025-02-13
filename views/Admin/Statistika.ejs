@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Statistika</title>
+    <link rel="icon" type="image/x-icon" href="/images/hr.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="/js/authenticateAdmin.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/chat.css" />
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+          <img
+            src="/images/hr.png"
+            alt="Logo"
+            style="width: 50px; height: 50px; border-radius: 50%"
+          />
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/upravljajkonkursima"
+              >
+                <i class="fas fa-briefcase me-2"></i> Konkursi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/kandidati"
+              >
+                <i class="fas fa-user me-2"></i> Kandidati
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/statistika"
+              >
+                <i class="fas fa-chart-bar me-2"></i> Statistika
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white border-end px-3" href="/chat"
+                ><i class="fas fa-comments"></i> Chat</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center px-3 text-danger"
+                href="#"
+                onclick="logout()"
+              >
+                <i class="bx bx-log-out me-2"></i> Odjavi se
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <script>
+      function logout() {
+        // Remove the token from localStorage or sessionStorage
+        localStorage.removeItem("jwt"); // Or sessionStorage.removeItem('token')
+
+        // Optionally, redirect the user to the login page
+        window.location.href = "/";
+      }
+    </script>
+  </head>
+
+  <style>
+    /* General Styles */
+    /* Globalno */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      font-weight: bold;
+      padding: 10px;
+    }
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Bar Chart Styles */
+    .bar-chart {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      height: 200px;
+      margin: 20px 0;
+      border-left: 2px solid #ddd;
+      border-bottom: 2px solid #ddd;
+    }
+    .bar {
+      width: 15%;
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 5px;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+    }
+    .bar:hover {
+      opacity: 0.8;
+    }
+
+    /* Progress List Styles */
+    .progress-list {
+      list-style: none;
+      padding: 0;
+    }
+    .progress-list li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .label {
+      width: 20%;
+      font-weight: bold;
+    }
+    .progress-bar {
+      height: 20px;
+      line-height: 20px;
+      background-color: #28a745;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    /* Pie Chart Styles */
+    .pie-chart {
+      display: flex;
+      justify-content: space-around;
+    }
+    .pie {
+      width: 100px;
+      height: 100px;
+      background: conic-gradient(
+        var(--color) 0 calc(var(--percent) * 1%),
+        #eee calc(var(--percent) * 1%)
+      );
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+    }
+    .pie:hover::after {
+      content: attr(title);
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center; /* Horizontalno centriranje */
+      align-items: center; /* Vertikalno centriranje */
+      z-index: 9999; /* Da bude ispred drugih sadržaja */
+      background-color: rgba(
+        255,
+        255,
+        255,
+        0.8
+      ); /* Polu-transparentna pozadina */
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin: 0 4px;
+      background-color: #007bff;
+      border-radius: 50%;
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+  <div class="loading-container text-center">
+    <div class="dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <body class="flex-grow-1">
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Statistika</h1>
+
+      <!-- Section for Konkurs Statistics -->
+      <div class="card mb-4">
+        <div class="card-header text-white" style="background-color: #007bff">
+          Uspješnost Konkursa (po broju aplikacija)
+        </div>
+        <div class="card-body">
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+      </div>
+
+      <!-- Section for Average Time to Fill Positions -->
+      <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+          Prosječno Vrijeme za Popunjavanje Pozicija
+        </div>
+        <div class="card-body">
+          <div class="bar-chart" id="bar-chart2"></div>
+        </div>
+
+        <!-- Section for Candidate Analysis -->
+        <div class="card mb-4">
+          <div class="card-header bg-warning text-white">
+            Analiza Kandidata po ocjenama koje ste prethodno postavili
+          </div>
+          <div class="card-body">
+            <div class="bar-chart" id="bar-chart3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container py-4"
+      style="
+        background-color: #f9f9f9;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div class="row justify-content-center">
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
+          <button
+            class="btn btn-danger w-100 py-2"
+            style="
+              background: linear-gradient(45deg, #4b79a1, #283e51);
+              border: none;
+              border-radius: 8px;
+              font-size: 16px;
+              font-weight: bold;
+              transition: background-color 0.3s;
+            "
+            onclick="generisiPDFStatistika(event)"
+          >
+            Generiši pdf sa podacima iz statistike
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="custom-footer">
+      <div class="container">
+        <div class="text-center mt-3">&copy; 2024 Sva prava zadržana.</div>
+      </div>
+    </footer>
+    <script src="/js/statistika.js"></script>
+  </body>
+</html>

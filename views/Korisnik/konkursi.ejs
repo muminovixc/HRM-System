@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/authenticateClient.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/hr.png">
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/konkursi.css">
+
+        <nav class="navbar navbar-expand-lg bg-primary text-white">
+          <div class="container">
+            <a href="/profil"><img src="/images/hr.png" alt="Logo" style="width: 50px; height: 50px;"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/profil"><i class="fas fa-user"></i> Profil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/konkursi"><i class="fas fa-briefcase"></i> Konkursi</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/mojeaplikacije"><i class="fas fa-file-alt"></i> Moje aplikacije</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white border-end px-3" href="/chatKorisnik"><i class="fas fa-comments"></i> Chat</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" onclick="logout()" class="nav-link text-white"><i class="bx bx-log-out"></i> Odjavi se</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </nav>
+
+  </head>
+  <script>
+
+    function logout() {
+      // Remove the token from localStorage or sessionStorage
+      localStorage.removeItem('jwt');  // Or sessionStorage.removeItem('token')
+    
+      // Optionally, redirect the user to the login page
+      window.location.href = '/';
+    }
+      </script>
+
+    <style>
+
+#applyModal .modal-dialog {
+    max-width: 90%;  /* Možeš postaviti na željeni procenat (npr. 80% od širine ekrana) */
+    width: 70%;      /* Možeš koristiti konkretan broj (npr. 600px) ili procenat */
+}
+@media only screen and (max-width: 600px) {
+  #applyModal .modal-dialog {
+    max-width: 100%;  /* Možeš postaviti na željeni procenat (npr. 80% od širine ekrana) */
+    width: 100%;      /* Možeš koristiti konkretan broj (npr. 600px) ili procenat */
+}
+}
+.modal.show {
+  display: block;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje */
+    z-index: 9999; /* Da bude ispred drugih sadržaja */
+    background-color: rgba(255, 255, 255, 0.8); /* Polu-transparentna pozadina */
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+    background-color: #007bff;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite ease-in-out;
+  }
+
+  .dot:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+
+
+
+
+    </style>
+
+    <body>
+      <!--tackice prije dohvatanja podataka iz baze-->
+      <div class="loading-container text-center">
+        <div class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+      <!--modal za uspijesno apliciranje na konkurs-->
+      <div class="modal" id="successModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #83a6ce; color: #fff;">
+              <h5 class="modal-title" id="successModalLabel">Uspiješno apliciranje</h5>
+              <button type="button" class="btn-close" onclick="closeSuccessModal()" aria-label="Close" style="background-color: #fff;"></button>
+            </div>
+            <div class="modal-body text-center">
+              <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #83a6ce;"></i>
+              <p class="mt-3">Uspiješno ste aplicirali na konkurs. Očekujte mail u toku narednih dana!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="closeSuccessModal()" style="background-color: #83a6ce; border-color: #83a6ce;">Zatvori</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--modal za aplikaciju-->
+      <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="text-center fw-bold">Apliciraj na konkurs</div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+              <form id="dynamicInputsForm">
+                <!-- Dinamički generisana polja -->
+                <div id="dynamicInputsContainer"></div>
+                <button id="aplicirajnakonkurs" type="submit" class="btn btn-primary mt-3">Pošalji aplikaciju</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <h2 class="text-center border-botttom" id="modal-title">Detalji o Konkursu</h2>
+            <p class="lead m-3 text-center border-botttom" id="modal-description"></p>
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-2"><i class="bi bi-geo-alt-fill d-flex justify-content-center align-items-center"></i><p class="text-center fw-bold" id="modal-location"></p></div>
+              <div class="col-lg-2"><i class="bi bi-code d-flex justify-content-center align-items-center"></i> <p class="text-center fw-bold" id="modal-tip"></p> </div>
+              <div class="col-lg-2"><i class="bi bi-database-fill d-flex justify-content-center align-items-center"></i> <p class="text-center fw-bold" id="modal-iskustvo"></p> </div>
+              <div class="col-lg-2"><i class="bi bi-calendar d-flex justify-content-center align-items-center"></i> <p class="text-center fw-bold" id="modal-date"></p> </div>
+            </div></p>
+            <div class="row"><div class="col">
+              <div id="apliciraj" class="btn d-flex justify-content-center align-items-center fw-bold">Apliciraj</div>
+            </div></div>
+            
+          
+        </div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+          <div class="col-lg-8">
+              <h3 class="text-center mb-4">Spisak svih konkursa</h3>
+  
+              <div class="search-bar" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 30px;">
+                  <form class="row g-3">
+                      <div class="col-md-6">
+                          <select class="form-select" id="filter" style="border-radius: 5px;">
+                              <option value="Sarajevo">Sarajevo</option>
+                              <option value="Tuzla">Tuzla</option>
+                              <option value="Zenica">Zenica</option>
+                              <option value="Bihać">Bihać</option>
+                              <option value="Mostar">Mostar</option>
+                          </select>
+                      </div>
+  
+                      <div class="col-md-4">
+                          <select class="form-select" id="filter1" style="border-radius: 5px;">
+                              <option value='{"junior"}'>Junior</option>
+                              <option value='{"medior"}'>Medior</option>
+                              <option value='{"senior"}'>Senior</option>
+                              <option value='{"bez iskustva"}'>Bez iskustva</option>
+                          </select>
+                      </div>
+  
+                      <div class="col-md-2">
+                          <button id="filtriraj" type="submit" class="btn btn-primary w-100" style="border-radius: 5px; background-color: #007bff; border-color: #007bff;">Filtriraj</button>
+                      </div>
+                  </form>
+                  <div class="text-center mt-2" id="porukapretrazivac"></div>
+              </div>
+  
+              <!-- Job Listings (empty for now) -->
+              <div id="job-container"></div>
+          </div>
+      </div>
+  </div>
+      </div>
+   
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+        
+        <script src="/js/konkursi.js"></script>
+
+    </body>
+    
+  <link rel="stylesheet" href="/css/footer.css">
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 HRM. Sva prava zadržana.</p>
+      </div>
+    </footer>
+
+</html>

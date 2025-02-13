@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Konkursi</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/cjs/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/images/hr.png" />
+
+    <script src="/js/authenticateAdmin.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+
+    <link rel="stylesheet" href="/css/kreirajiupravljajkonkursima.css" />
+    <style>
+
+      .btn-gradient {
+        background: linear-gradient(45deg, #83a6ce, #aabbe6);
+        border: none;
+        border-radius: 50px;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .btn-gradient:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-gradient:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(101, 84, 192, 0.5);
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        position: relative;
+        animation: fadeIn 0.3s;
+      }
+
+      .modal-content h2 {
+        margin: 0 0 15px;
+      }
+
+      .modal-content input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .modal-content .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .modal-content .close-btn:hover {
+        color: #333;
+      }
+
+      /* Animacija za modal */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje */
+    z-index: 9999; /* Da bude ispred drugih sadržaja */
+    background-color: rgba(255, 255, 255, 0.8); /* Polu-transparentna pozadina */
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 0 4px;
+    background-color: #007bff;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite ease-in-out;
+  }
+
+  .dot:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .dot:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+      
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+          <img
+            src="/images/hr.png"
+            alt="Logo"
+            style="width: 50px; height: 50px; border-radius: 50%"
+          />
+        </a>
+
+        <!-- Navbar Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/upravljajkonkursima"
+              >
+                <i class="fas fa-briefcase me-2"></i> Konkursi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/kandidati"
+              >
+                <i class="fas fa-user me-2"></i> Kandidati
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center border-end px-3"
+                href="/statistika"
+              >
+                <i class="fas fa-chart-bar me-2"></i> Statistika
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white border-end px-3" href="/chat"
+                ><i class="fas fa-comments"></i> Chat</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link d-flex align-items-center px-3 text-danger"
+                href="#"
+                onclick="logout()"
+              >
+                <i class="bx bx-log-out me-2"></i> Odjavi se
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </head>
+  <script>
+    function logout() {
+      // Remove the token from localStorage or sessionStorage
+      localStorage.removeItem("jwt"); // Or sessionStorage.removeItem('token')
+
+      // Optionally, redirect the user to the login page
+      window.location.href = "/";
+    }
+  </script>
+
+  <body>
+    <div class="loading-container text-center">
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+    <!--modal za aktiviranje-->
+    <div id="dateModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Odaberite novi rok za prijavu</h2>
+        <input type="date" id="noviDatum" />
+        <button id="saveDate">Sačuvaj datum</button>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div id="modernModal" class="modern-modal">
+        <div class="modern-modal-content">
+          <span class="modern-modal-close">&times;</span>
+          <h2 class="modern-modal-title">Uspjeh!</h2>
+          <p class="modern-modal-body">Uspiješno ste ažurirali konkurs!.</p>
+          <button id="zatvori" class="modern-modal-button">U redu</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-6">
+            <a target="_blank" href="/kreirajkonkurs" class="mt-5">
+              <button class="mt-5 btn btn-gradient text-white px-4 py-2">
+                <i class="bi bi-star-fill me-2"></i
+                ><i class="fab fa-perbyte"></i> Kreiraj novi konkurs
+              </button></a
+            >
+          </div>
+        </div>
+
+        <div class="text-center">
+          <h1 class="border-bottom border-3 mt-5">Lista kreiranih konkursa</h1>
+        </div>
+
+        <div class="container-fluid">
+          <div class="row justify-content-center">
+            <!-- Glavni kontejner -->
+            <div class="col-lg-6 col-md-8 col-sm-10">
+              <!-- Forma za pretragu i filtriranje -->
+              <div class="card shadow-lg mt-5">
+                <div class="card-body">
+                  <h5 class="text-center text-primary fw-bold mb-4">
+                    Filtrirajte i pretražujte prijave
+                  </h5>
+                  <form class="row g-3">
+                    <!-- Dropdown za filter -->
+                    <div class="col-md-4">
+                      <label for="filter" class="form-label text-primary"
+                        >Filtriraj prema:</label
+                      >
+                      <select
+                        class="form-select"
+                        id="filter"
+                        aria-label="Filter"
+                      >
+                        <option value="svi">Svi</option>
+                        <option value="arhivirano">Arhivirani</option>
+                        <option value="aktivan">Aktivni</option>
+                      </select>
+                    </div>
+                    <!-- Dugme za filtriranje -->
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button
+                        id="filtriraj"
+                        type="submit"
+                        class="btn btn-primary w-100"
+                      >
+                        Filtriraj
+                      </button>
+                    </div>
+                    <!-- Polje za pretragu -->
+                    <div class="col-md-4">
+                      <label for="pretrazivac" class="form-label text-primary"
+                        >Pretraži:</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="pretrazivac"
+                        name="jobTitle"
+                        placeholder="Unesite pojam"
+                      />
+                    </div>
+                    <!-- Dugme za pretragu -->
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button
+                        id="pretrazi"
+                        type="button"
+                        class="btn btn-primary w-100"
+                      >
+                        Pretraži
+                      </button>
+                    </div>
+                  </form>
+                  <!-- Poruka za pretraživač -->
+                  <div
+                    id="porukapretrazivac"
+                    class="text-center mt-3 text-danger"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kontejner za liste poslova -->
+          <div id="job-container" class="container mt-5">
+            <!-- Dinamički sadržaj (poslovi ili rezultati pretrage) -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <link rel="stylesheet" href="/css/footer.css" />
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 HRM. Sva prava zadržana.</p>
+      </div>
+    </footer>
+
+
+    <script src="/js/upravljajkonkursima.js"></script>
+  </body>
+</html>
