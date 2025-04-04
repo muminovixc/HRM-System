@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
            
     const jwtToken = localStorage.getItem('jwt')
     console.log(jwtToken)
-    const res1 = await fetch('http://localhost:3000/upravljajkonkursima/jwtAuth', {
+    const res1 = await fetch('/upravljajkonkursima/jwtAuth', {
         method: 'GET',
         headers: {'Content-Type': 'application/json',
                   'Authorization': `Bearer ${jwtToken}`}
@@ -68,7 +68,7 @@ async function unesikomentar(id_korisnika,id_konkursa,ev){
 
   const komentar=document.getElementById('komentar').value;
 
-  const res=await fetch('http://localhost:3000/prikazkandidata/komentar',{
+  const res=await fetch('/prikazkandidata/komentar',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({komentar,id_korisnika,id_konkursa})
@@ -100,7 +100,7 @@ async function unesiocjenu(id_korisnika, id_konkursa, ev) {
   }
 
   try {
-    const res = await fetch('http://localhost:3000/prikazkandidata/ocjena', {
+    const res = await fetch('/prikazkandidata/ocjena', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ocjena: selectedOcjena, id_korisnika, id_konkursa })
@@ -130,7 +130,7 @@ async function posaljiemail(event, email,id) {
 
 
   try {
-    const response = await fetch('http://localhost:3000/prikazkandidata/pozoviNaIntervju', {
+    const response = await fetch('/prikazkandidata/pozoviNaIntervju', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ async function posaljiemail(event, email,id) {
 
 async function promijenistatus(ev,status,email,id){
   console.log(status, email, id)
-  const res= await fetch('http://localhost:3000/prikazkandidata/promjenastatusa',{
+  const res= await fetch('/prikazkandidata/promjenastatusa',{
     method:'PUT',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({status,email,id})
@@ -168,7 +168,7 @@ async function posaljiemail2(event, email) {
 
 
   try {
-    const response = await fetch('http://localhost:3000/prikazkandidata/odbij', {
+    const response = await fetch('/prikazkandidata/odbij', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ async function GenerisiPdf(event, id) {
   
   try {
     // Fetch podaci o kandidatu sa servera
-    const res = await fetch('http://localhost:3000/prikazkandidata/PodaciZaPdf', {
+    const res = await fetch('/prikazkandidata/PodaciZaPdf', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),

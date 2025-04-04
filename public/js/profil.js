@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
   const jwtToken = localStorage.getItem("jwt");
   console.log(jwtToken);
-  const res1 = await fetch("http://localhost:3000/profil/jwtAuth", {
+  const res1 = await fetch("/profil/jwtAuth", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   const github = document.getElementById("github");
   const Edukacija = document.getElementById("edukacijaa");
   console.log(id);
-  const res = await fetch("http://localhost:3000/profil/podaci", {
+  const res = await fetch("/profil/podaci", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id }),
@@ -111,7 +111,7 @@ async function azuriraj(e) {
 
   console.log(formData);
 
-  const res = await fetch("http://localhost:3000/profil/azuriranje", {
+  const res = await fetch("/profil/azuriranje", {
     method: "PUT",
     body: formData,
   });

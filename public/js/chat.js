@@ -4,7 +4,7 @@ const notifikacija=document.getElementById('notifikacija')
 document.addEventListener("DOMContentLoaded", async () => {
   const jwtToken = localStorage.getItem("jwt");
 
-  const res1 = await fetch("http://localhost:3000/chat/jwtAuth", {
+  const res1 = await fetch("/chat/jwtAuth", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     // Preuzimanje liste korisnika
-    const res = await fetch("http://localhost:3000/chat/users", {
+    const res = await fetch("/chat/users", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         // Dohvati sve prethodne poruke
         const res = await fetch(
-          `http://localhost:3000/chat/get-messages?fromUserId=${fromUserId}&toUserId=${toUserId}`
+          `/chat/get-messages?fromUserId=${fromUserId}&toUserId=${toUserId}`
         );
         const data = await res.json();
 
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       try {
         console.log(toUserId);
-        const res = await fetch("http://localhost:3000/chat/send-message", {
+        const res = await fetch("/chat/send-message", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ fromUserId, toUserId, message }),

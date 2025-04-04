@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const jwtToken = localStorage.getItem('jwt');
     
   
-    const res1 = await fetch('http://localhost:3000/mojeaplikacije/jwtAuth', {
+    const res1 = await fetch('/mojeaplikacije/jwtAuth', {
         method: 'GET',
         headers: {'Content-Type': 'application/json',
                   'Authorization': `Bearer ${jwtToken}`}
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const id=localStorage.getItem('id')
     const mjestoZaAplikacije=document.getElementById('Aplikacije-list')
 
-    const res=await fetch('http://localhost:3000/mojeaplikacije/prikazaplikacija',{
+    const res=await fetch('/mojeaplikacije/prikazaplikacija',{
 
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -121,7 +121,7 @@ function closeModal1() {
 
 async function otkaziaplikaciju(id) {
 
-    const res= await fetch('http://localhost:3000/mojeaplikacije/otkaziaplikaciju',{
+    const res= await fetch('/mojeaplikacije/otkaziaplikaciju',{
         method: 'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({id})
@@ -150,7 +150,7 @@ async function filtriraj(event) {
     let status=document.getElementById('filter1').value
     console.log(id,status)
 
-    const res= await fetch('http://localhost:3000/mojeaplikacije/filtriraj',{
+    const res= await fetch('/mojeaplikacije/filtriraj',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({id,status})
@@ -254,7 +254,7 @@ async function prikazidetalje(id) {
 
     const modal = document.getElementById('customModal');
     const modalClose = document.querySelector('.custom-modal-close');
-    const res=await fetch('http://localhost:3000/mojeaplikacije/prikazidetalje',{
+    const res=await fetch('/mojeaplikacije/prikazidetalje',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({id})
@@ -304,7 +304,7 @@ async function prikazidetalje(id) {
 async function Potvrdidolazak(id,email) {
   console.log(email)
  
-  const res= await fetch('http://localhost:3000/mojeaplikacije/potvrdidolazak',{
+  const res= await fetch('/mojeaplikacije/potvrdidolazak',{
       method: 'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({id,email})

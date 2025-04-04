@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const jwtToken = localStorage.getItem('jwt');
   
 
-  const res1 = await fetch('http://localhost:3000/konkursi/jwtAuth', {
+  const res1 = await fetch('/konkursi/jwtAuth', {
       method: 'GET',
       headers: {'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`}
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const ime1 = localStorage.getItem('ime');
   
 
-  const res = await fetch('http://localhost:3000/konkursi/podaci', {
+  const res = await fetch('/konkursi/podaci', {
       method: 'GET',
       headers: {'Content-Type': 'application/json'}
   });
@@ -110,7 +110,7 @@ document.getElementById('job-container').addEventListener('click', async (e) => 
 
       // Ovdje šaljemo zahtev za detalje o konkursu na server
   
-          const res = await fetch('http://localhost:3000/konkursi/detalji',{
+          const res = await fetch('/konkursi/detalji',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({jobId})
@@ -181,7 +181,7 @@ document.getElementById('filtriraj').addEventListener('click',async(e)=>{
   console.log(select1,select2)
 
 
-  const res=await fetch('http://localhost:3000/konkursi/filter',{
+  const res=await fetch('/konkursi/filter',{
     method:'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({select1,select2})
@@ -284,7 +284,7 @@ document.getElementById('job-container').addEventListener('click', async (e) => 
 
   const jobId = e.target.closest('.card').querySelector('.card-title a').dataset.id;
   console.log('ID konkursa:', jobId);
-  const res = await fetch('http://localhost:3000/konkursi/detalji',{
+  const res = await fetch('/konkursi/detalji',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({jobId})
@@ -438,7 +438,7 @@ document.getElementById('job-container').addEventListener('click', async (e) => 
     formData.append('vrijeme',seconds)
 
     
-        const res = await fetch('http://localhost:3000/konkursi/apliciraj', {
+        const res = await fetch('/konkursi/apliciraj', {
             method: 'POST',
             body: formData,
         });

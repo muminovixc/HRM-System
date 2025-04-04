@@ -4,7 +4,7 @@ const notifikacija = document.getElementById("notifikacija");
 document.addEventListener("DOMContentLoaded", async () => {
   const jwtToken = localStorage.getItem("jwt");
 
-  const res1 = await fetch("http://localhost:3000/chatKorisnik/jwtAuth", {
+  const res1 = await fetch("/chatKorisnik/jwtAuth", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     // Preuzimanje liste korisnika
-    const res = await fetch("http://localhost:3000/chatKorisnik/users", {
+    const res = await fetch("/chatKorisnik/users", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         // Dohvati sve prethodne poruke
         const res = await fetch(
-          `http://localhost:3000/chatKorisnik/get-messages?fromUserId=${fromUserId}&toUserId=${toUserId}`
+          `/chatKorisnik/get-messages?fromUserId=${fromUserId}&toUserId=${toUserId}`
         );
         const data = await res.json();
 
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       try {
         console.log(toUserId);
         const res = await fetch(
-          "http://localhost:3000/chatKorisnik/send-message",
+          "/chatKorisnik/send-message",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

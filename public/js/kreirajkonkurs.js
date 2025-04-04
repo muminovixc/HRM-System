@@ -3,7 +3,7 @@
 
     const jwtToken = localStorage.getItem('jwt')
     console.log(jwtToken)
-    const res1 = await fetch('http://localhost:3000/kreirajkonkurs/jwtAuth', {
+    const res1 = await fetch('/kreirajkonkurs/jwtAuth', {
         method: 'GET',
         headers: {'Content-Type': 'application/json',
                   'Authorization': `Bearer ${jwtToken}`}
@@ -99,7 +99,7 @@
         }
 
         else{
-          const res=await fetch('http://localhost:3000/kreirajkonkurs',{
+          const res=await fetch('/kreirajkonkurs',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({naziv,opis,lokacija,selectediskustvo,tip,datum,selectedIds})

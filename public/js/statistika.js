@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("JWT Token:", jwtToken);
 
   // Provjera autentifikacije
-  const authResponse = await fetch("http://localhost:3000/statistika/jwtAuth", {
+  const authResponse = await fetch("/statistika/jwtAuth", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const bar = document.getElementById("bar-chart");
   const bar2 = document.getElementById("bar-chart2");
   const bar3 = document.getElementById("bar-chart3");
-  const res = await fetch("http://localhost:3000/statistika/analiza", {
+  const res = await fetch("/statistika/analiza", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
   const res2 = await fetch(
-    "http://localhost:3000/statistika/analizakandidata",
+    "/statistika/analizakandidata",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function generisiPDFStatistika(event) {
   event.preventDefault();
 
-  const res = await fetch("http://localhost:3000/statistika/analiza", {
+  const res = await fetch("/statistika/analiza", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });

@@ -27,7 +27,7 @@ document.getElementById('prijava').addEventListener('click',async(e)=>{
 
        try{
         
-        const res=await fetch('http://localhost:3000/',{
+        const res=await fetch('/',{
             method: 'POST',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({email,sifra})
@@ -56,7 +56,7 @@ document.getElementById('prijava').addEventListener('click',async(e)=>{
                    const ime=decodedtoken.ime;
                    console.log(ime)
                     localStorage.setItem('ime',ime);
-                    location.assign('http://localhost:3000/profil')
+                    location.assign('/profil')
                 }
 
                else if(role=='admin'){
@@ -65,7 +65,7 @@ document.getElementById('prijava').addEventListener('click',async(e)=>{
                     localStorage.setItem('id',id)
                     const ime=decodedtoken.ime;
                     localStorage.setItem('ime',ime)
-                    location.assign('http://localhost:3000/upravljajkonkursima')
+                    location.assign('/upravljajkonkursima')
                 }
                 
                

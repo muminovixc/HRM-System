@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
   // PreventDefault nije potreban ovde, jer 'DOMContentLoaded' ne zahteva preventDefault
   const jwtToken = localStorage.getItem("jwt");
   console.log(jwtToken);
-  const res1 = await fetch("http://localhost:3000/kandidati/jwtAuth", {
+  const res1 = await fetch("/kandidati/jwtAuth", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async (ev) => {
     location.assign("/");
   }
 
-  const res = await fetch("http://localhost:3000/kandidati/options", {
+  const res = await fetch("/kandidati/options", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -44,7 +44,7 @@ document.getElementById("prikaz").addEventListener("click", async (e) => {
   var brojactpozvanih = 0;
   var brojacodbijenih = 0;
 
-  const res = await fetch("http://localhost:3000/kandidati/prikaz", {
+  const res = await fetch("/kandidati/prikaz", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id }),

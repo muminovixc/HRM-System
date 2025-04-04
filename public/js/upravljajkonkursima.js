@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
            
     const jwtToken = localStorage.getItem('jwt')
     console.log(jwtToken)
-    const res1 = await fetch('http://localhost:3000/upravljajkonkursima/jwtAuth', {
+    const res1 = await fetch('/upravljajkonkursima/jwtAuth', {
         method: 'GET',
         headers: {'Content-Type': 'application/json',
                   'Authorization': `Bearer ${jwtToken}`}
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
   }
 
 
-    const res=await fetch('http://localhost:3000/upravljajkonkursima/uzimanjepodataka',{
+    const res=await fetch('/upravljajkonkursima/uzimanjepodataka',{
       method:'GET',
       headers: {'Content-Type': 'application/json'}
     })
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
     if (tip2!='svi'){
       console.log(tip2);
-    const res4=await fetch('http://localhost:3000/upravljajkonkursima/filtriraj',{
+    const res4=await fetch('/upravljajkonkursima/filtriraj',{
       method:'POST',
       headers: {'Content-Type': 'application/json'},
       body:JSON.stringify({tip2})
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
     }
     }
     else{
-      const res=await fetch('http://localhost:3000/upravljajkonkursima/uzimanjepodataka',{
+      const res=await fetch('/upravljajkonkursima/uzimanjepodataka',{
         method:'GET',
         headers: {'Content-Type': 'application/json'}
       })
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
     }
     
-    const res= await fetch('http://localhost:3000/upravljajkonkursima/pretrazi',{
+    const res= await fetch('/upravljajkonkursima/pretrazi',{
           method:'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({NazivKonkursa})
@@ -570,7 +570,7 @@ async function arhiviraj(event,id,status) {
             document.getElementById('saveDate').addEventListener('click',async()=>{
               const noviDatum=document.getElementById('noviDatum').value
               console.log(noviDatum)
-              const res= await fetch('http://localhost:3000/upravljajkonkursima/aktiviraj',{
+              const res= await fetch('/upravljajkonkursima/aktiviraj',{
                 method:'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({status,id,noviDatum})
@@ -605,7 +605,7 @@ async function arhiviraj(event,id,status) {
 
 else{
   
-  const res= await fetch('http://localhost:3000/upravljajkonkursima/arhiviraj',{
+  const res= await fetch('/upravljajkonkursima/arhiviraj',{
     method:'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({status,id})
@@ -640,7 +640,7 @@ console.log('ne radi')
 async function kreirajPDF(event,id) {
     event.preventDefault()
 
-    const res=await fetch('http://localhost:3000/upravljajkonkursima/kreirajPDF',{
+    const res=await fetch('/upravljajkonkursima/kreirajPDF',{
         method:'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({id})

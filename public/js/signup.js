@@ -30,7 +30,7 @@ document
     if (sifra.length < 8) {
       porukas.innerHTML = "Sifra ne smije imati manje od 8 karaktera!";
     } else {
-      const res = await fetch("http://localhost:3000/registracija", {
+      const res = await fetch("/registracija", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ime, prezime, email, sifra }),
@@ -44,7 +44,7 @@ document
       } else {
         poruka.innerHTML = data.message;
 
-        setTimeout(location.assign("http://localhost:3000/"), 2000);
+        setTimeout(location.assign("/"), 2000);
       }
     }
   });

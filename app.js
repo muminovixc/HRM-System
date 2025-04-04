@@ -70,7 +70,7 @@ io.on("connection", (socket) => {
 
  
   socket.on("new-message", async (data) => {
-    try {
+    try { 
       
       const result = await pool.query(
         "SELECT ime, prezime FROM korisnici WHERE id_korisnika = $1",
