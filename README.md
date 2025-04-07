@@ -21,7 +21,7 @@ A web-based Human Resource Management System built with **Node.js**, **Express.j
 ## 🛠️ Technologies Used
 
 - **Backend**: Node.js, Express.js
-- **Frontend**: EJS templating, HTML/CSS/JS
+- **Frontend**: EJS/CSS/JS
 - **Database**: PostgreSQL
 - **Hosting**: Render
 
